@@ -1,5 +1,6 @@
 package dw.gameshop.service;
 
+import dw.gameshop.exception.ResourceNotFoundException;
 import dw.gameshop.model.Game;
 import dw.gameshop.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class GameService {
         if (games.isPresent()) {
             return games.get();
         }else {
-            return null;
+            throw new ResourceNotFoundException("Game","ID",id);
         }
     }
     public Game updateGameById(long id, Game game) {
@@ -37,7 +38,7 @@ public class GameService {
             gameRepository.save(game1.get());
             return game1.get();
         } else {
-            return null;
+            throw new ResourceNotFoundException("Game","ID",id);
         }
     }
 }

@@ -1,5 +1,6 @@
 package DW.firstapp.service;
 
+import DW.firstapp.exception.ResourceNotFoundException;
 import DW.firstapp.model.Employee;
 import DW.firstapp.repository.EmployeeRepository;
 import jakarta.persistence.Id;
@@ -31,7 +32,7 @@ public class EmployeeService {
         Optional<Employee> employee = employeeRepository.findById(id);
         if (employee.isEmpty()){
             // 예외처리
-            return null;
+            throw new ResourceNotFoundException("Employee","ID",id);
         } else {
             return employee.get();
         }
@@ -49,7 +50,8 @@ public class EmployeeService {
 
           return employee1.get();
       } else {
-          return null;
+          // 예외처리
+          throw new ResourceNotFoundException("Employee","ID",id);
       }
     }
 
@@ -60,7 +62,8 @@ public class EmployeeService {
             employeeRepository.deleteById(id);
             return employee.get();
         } else {
-            return null;
+            // 예외처리
+            throw new ResourceNotFoundException("Employee","ID",id);
         }
     }
 }

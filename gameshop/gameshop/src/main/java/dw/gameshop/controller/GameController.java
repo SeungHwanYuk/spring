@@ -3,6 +3,8 @@ package dw.gameshop.controller;
 import dw.gameshop.model.Game;
 import dw.gameshop.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,14 +18,16 @@ GameService gameService;
     }
 
     @GetMapping("/api/games/products")
-    public List<Game> getAllGames() {return gameService.getAllGames();};
+    public ResponseEntity<List<Game>> getAllGames() {
+        return new ResponseEntity<>(gameService.getAllGames(), HttpStatus.OK);};
 
     @GetMapping("/api/games/products/{id}")
-    public Game getGameById(@PathVariable long id) {return gameService.getGameById(id);}
+    public ResponseEntity<Game> getGameById(@PathVariable long id) {
+        return new ResponseEntity<>(gameService.getGameById(id),HttpStatus.OK);}
 
     @PutMapping("/api/games/products/{id}")
-    public Game updateGameById(@PathVariable long id,
+    public ResponseEntity<Game> updateGameById(@PathVariable long id,
                                @RequestBody Game game) {
-        return gameService.updateGameById(id , game);
+        return new ResponseEntity<>(gameService.updateGameById(id , game),HttpStatus.OK);
     }
 }
