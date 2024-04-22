@@ -30,4 +30,14 @@ GameService gameService;
                                @RequestBody Game game) {
         return new ResponseEntity<>(gameService.updateGameById(id , game),HttpStatus.OK);
     }
+
+    @GetMapping("/api/games/top_price")
+    public ResponseEntity<Game> findTopPriceGame() {
+        return new ResponseEntity<>(gameService.findTopPriceGame(),HttpStatus.OK);
+    }
+
+    @GetMapping("api/games/top3price")
+    public ResponseEntity<List<Game>> findTopPriceGameTop3() {
+        return new ResponseEntity<>(gameService.findTopPriceGameTop3(),HttpStatus.OK);
+    }
 }
