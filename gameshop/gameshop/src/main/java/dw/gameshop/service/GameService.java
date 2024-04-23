@@ -3,7 +3,9 @@ package dw.gameshop.service;
 import dw.gameshop.exception.ResourceNotFoundException;
 import dw.gameshop.model.Game;
 import dw.gameshop.repository.GameRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.awt.font.GlyphMetrics;
@@ -14,6 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class GameService {
     GameRepository gameRepository;
 
@@ -71,7 +74,6 @@ public class GameService {
                 // 람다식 예외처리
                 .orElseThrow(() -> new ResourceNotFoundException("Max Price", " ", " "));
     }
-
 
     // 제일 비싼 게임 Top 3
 

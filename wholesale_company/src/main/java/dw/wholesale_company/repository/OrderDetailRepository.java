@@ -1,4 +1,7 @@
 package dw.wholesale_company.repository;
 
-public interface OrderDetailRepository {
+import dw.wholesale_company.model.OrderDetail;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
 }

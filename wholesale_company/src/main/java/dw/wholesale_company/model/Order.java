@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -28,9 +29,9 @@ public class Order {
     private Employee employee;
 
     @Column(name = "주문일")
-    private LocalDateTime orderDate;
+    private LocalDate orderDate;
     @Column(name = "요청일")
-    private LocalDateTime requestDate;
+    private LocalDate requestDate;
     @Column(name = "발송일")
-    private LocalDateTime shippingDate;
+    private LocalDate shippingDate;
 }

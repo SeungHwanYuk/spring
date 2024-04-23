@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -28,9 +29,9 @@ public class Employee {
     @Column(name = "성별")
     private String gender;
     @Column(name = "생일")
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
     @Column(name = "입사일")
-    private LocalDateTime hireDate;
+    private LocalDate hireDate;
     @Column(name = "주소")
     private String address;
     @Column(name = "도시")
