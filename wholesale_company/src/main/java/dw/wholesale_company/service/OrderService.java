@@ -2,6 +2,7 @@ package dw.wholesale_company.service;
 
 import dw.wholesale_company.Dto.OrderDto;
 import dw.wholesale_company.exception.ResourceNotFoundException;
+import dw.wholesale_company.model.Customer;
 import dw.wholesale_company.model.Order;
 import dw.wholesale_company.repository.OrderRepository;
 import jakarta.transaction.Transactional;
@@ -42,4 +43,19 @@ public class OrderService {
             return orderDtoList;
         }
     }
+
+    // 2020년 4월 9일에 주문한 고객의 모든 정보를 보이시오.
+
+    public List<Customer> getCustomerFromOrderByDate(LocalDate date) {
+        return orderRepository.findByOrderDate(date)
+                .stream()
+                .map(Order::getCustomer)
+                .collect(Collectors.toList());
+    }
+//    public List<Customer> getCustomerFromOrderByDate(LocalDate date) {
+//        return orderRepository.findAll()
+//                .stream().filter(order -> order.getOrderDate().isEqual(date))
+//                .map(Order::getCustomer)
+//                .collect(Collectors.toList());
+//    }
 }

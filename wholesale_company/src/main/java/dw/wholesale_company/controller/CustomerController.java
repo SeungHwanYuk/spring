@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 public class CustomerController {
     CustomerService customerService;
+
     @Autowired
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
@@ -22,6 +23,11 @@ public class CustomerController {
 
     @GetMapping("/customers")
     public ResponseEntity<List<Customer>> getAllCustomer() {
-        return new ResponseEntity<>(customerService.getAllCustomer(), HttpStatus.OK);}
-
+        return new ResponseEntity<>(customerService.getAllCustomer(), HttpStatus.OK);
     }
+
+    @GetMapping("/customers/mileage/overavg")
+    public ResponseEntity<List<Customer>> getCustomerListByOverAvgMileage() {
+        return new ResponseEntity<>(customerService.getCustomerListByOverAvgMileage(),HttpStatus.OK);
+    }
+}
