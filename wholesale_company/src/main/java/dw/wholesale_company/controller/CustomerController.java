@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,5 +30,10 @@ public class CustomerController {
     @GetMapping("/customers/mileage/overavg")
     public ResponseEntity<List<Customer>> getCustomerListByOverAvgMileage() {
         return new ResponseEntity<>(customerService.getCustomerListByOverAvgMileage(),HttpStatus.OK);
+    }
+
+    @GetMapping("/customers/aaa/{grade}")
+    public ResponseEntity<List<Customer>> getCustomerByMileageGrade(@PathVariable String grade) {
+        return new ResponseEntity<>(customerService.getCustomerByMileageGrade(grade),HttpStatus.OK);
     }
 }

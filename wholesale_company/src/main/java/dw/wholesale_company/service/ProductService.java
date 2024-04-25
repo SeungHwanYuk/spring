@@ -5,6 +5,8 @@ import dw.wholesale_company.model.Customer;
 import dw.wholesale_company.model.Order;
 import dw.wholesale_company.model.Product;
 import dw.wholesale_company.repository.ProductRepository;
+import jakarta.persistence.Column;
+import jakarta.persistence.Table;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -71,7 +73,8 @@ public class ProductService {
         }
         return productListLowLimit;
     }
-//public List<Product> getProductListByBetweenPrice(int lowLimit, int highLimit) {
+
+    //public List<Product> getProductListByBetweenPrice(int lowLimit, int highLimit) {
 //    List<Product> productList = productRepository.findAll();
 //    List<Product> productListHighLimit = new ArrayList<>();
 //    for (int i = 0; i < productList.size(); i++) {
@@ -82,16 +85,16 @@ public class ProductService {
 //    return productListHighLimit;
 //}
 //}
-public List<Product> getProductByProductList(List<Long> productIdList) {
-   List<Product> productList = productRepository.findAll();
-   List<Product> productList1 = new ArrayList<>();
-    for (int i = 0; i < productList.size(); i++) {
-        for (int j = 0; j < productIdList.size(); j++) {
-        if (productList.get(i).getProductId() == productIdList.get(j))
-            productList1.add(productList.get(i));
+    public List<Product> getProductByProductList(List<Long> productIdList) {
+        List<Product> productList = productRepository.findAll();
+        List<Product> productList1 = new ArrayList<>();
+        for (int i = 0; i < productList.size(); i++) {
+            for (int j = 0; j < productIdList.size(); j++) {
+                if (productList.get(i).getProductId() == productIdList.get(j))
+                    productList1.add(productList.get(i));
+            }
         }
-    }
-    return productList1;
+        return productList1;
 //    return productList
 //            .stream()
 //            .filter(product -> productIdList.contains(product.getProductId()))
@@ -100,18 +103,32 @@ public List<Product> getProductByProductList(List<Long> productIdList) {
     }
 
     // 제품 재고금액이 높은 상위 10개 제품
-    public int sum(int unitPrice, int inventory) {
-        int num = 0;
-        num = unitPrice * inventory;
-        return num;
+//    public List<Product> sum() {
+//        long num = 0;
+//
+//        List<Product> productList = productRepository.findAll();
+//        List<Product> productList1 = new ArrayList<>();
+//
+//        for (int i = 0; i < productList.size(); i++) {
+//            num = productList.get(i).getInventory()*productList.get(i).getUnitPrice();
+//            productList1.get(i).getUnitPrice()
+//        }
+//              productList
+//                      .stream()
+//                      .sorted(Comparator.comparingLong())
+//                      .collect(Collectors.toList());
+//
+//
+//        }
+//    }
 
-    public List<Product> getTop10Price() {
+    public List<Product> getLimit(int limit) {
         List<Product> productList = productRepository.findAll();
-              productList
-                      .stream()
-                      .sorted(Comparator.comparingLong(productList.get(unitPrice),productList.get(inventory) -> ))
-
-        }
+        return productList.stream()
+                .sorted(Comparator.comparingLong((Product p) -> p.getUnitPrice()*p.getInventory())
+                        .reversed())
+                .limit(limit)
+                .collect(Collectors.toList());
     }
 }
 
