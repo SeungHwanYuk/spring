@@ -34,10 +34,13 @@ public class Employee {
     private LocalDate hireDate;
     @Column(name = "주소")
     private String address;
+
     @Column(name = "도시")
     private String city;
+
     @Column(name = "지역")
     private String area;
+
     @Column(name = "집전화")
     private String telephoneNo;
 

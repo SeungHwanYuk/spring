@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,37 +47,21 @@ public class CustomerService {
 
     public List<Customer> getCustomerByMileageGrade(String grade) {
         List<Customer> customerList = customerRepository.findAll();
-        List<Mileage> mileageList = mileageRepository.findAll();
-        List<Customer> customerListFinal = new ArrayList<>();
-        long lowlimit = 0;
-        long highlimit = 0;
-        for (int i = 0; i < mileageList.size(); i++) {
-            if (grade.equalsIgnoreCase(mileageList.get(i).getMileageGrade()))
-                lowlimit = mileageList.get(i).getLowLimit();
-            highlimit = mileageList.get(i).getHighLimit();
-        }
-
-        long finalLowlimit = lowlimit;
-        long finalHighlimit = highlimit;
-
-        return customerList.stream()
-                .filter(customer -> customer.getMileage() >= finalLowlimit && customer.getMileage() <= finalHighlimit)
-                .collect(Collectors.toList());
-
-
-
-//
-//        for (int i = 0; i < customerList.size(); i++) {
-//            if (customerList.get(i).getMileage() > low) &&
-//                    customerList.get(i).getMileage() < mileageList
-//
+        Optional<Mileage> mileageList = mileageRepository.findById(grade);
+//        long lowLimit = 0;
+//        long highLimit = 0;
+//        for (int i = 0; i < mileageList.size(); i++) {
+//            if (mileageList.get(i).getMileageGrade().equals(grade))
+//                lowLimit = mileageList.get(i).getLowLimit();
+//                highLimit = mileageList.get(i).getHighLimit();
 //        }
-
-
-//        customerList.stream()
-//                .filter()
-//                .map()
-
+//
+//        long finalLowLimit = lowLimit;
+//        long finalHighLimit = highLimit;
+        return customerList.stream()
+                .filter(customer -> customer.getMileage() >= mileageList.get().getLowLimit()
+                        && customer.getMileage() <= mileageList.get().getHighLimit())
+                .collect(Collectors.toList());
     }
 }
 
