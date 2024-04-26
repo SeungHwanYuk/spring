@@ -67,6 +67,10 @@ public class TestService {
         }
         return count;
     }
+    // return (int)orderList.stream()
+    //         .filter(order -> order.getOrderDate().getYear() == orderYear)
+    //         .count();
+
 
     //4. 직위(position)와 나이대(year)를 매개변수로 받아 해당정보에 맞는 사원들의 정보를 보이시오.
     // 예를 들어 20대는 매개변수 year=20 이고 나이가 20살이상 30살미만을 의미함.
@@ -77,8 +81,8 @@ public class TestService {
         return employeeRepository.findAll()
                 .stream()
                 .filter(employee -> employee.getPosition().equals(position))
-                .filter(employee -> (LocalDate.now().getYear() - employee.getBirthDate().getYear() >= year) &&
-                        (LocalDate.now().getYear() - employee.getBirthDate().getYear()) <= yearLayers)
+                .filter(employee -> (LocalDate.now().getYear() - employee.getBirthDate().getYear() >= year)
+                        && (LocalDate.now().getYear() - employee.getBirthDate().getYear()) <= yearLayers)
                 .collect(Collectors.toList());
     }
 }
