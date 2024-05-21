@@ -1,6 +1,6 @@
 package dw.wholesale_company.controller;
 
-import dw.wholesale_company.Dto.OrderDto;
+import dw.wholesale_company.dto.OrderDto;
 import dw.wholesale_company.model.Customer;
 import dw.wholesale_company.model.Order;
 import dw.wholesale_company.service.OrderService;

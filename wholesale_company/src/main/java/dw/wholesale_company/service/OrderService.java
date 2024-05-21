@@ -1,6 +1,6 @@
 package dw.wholesale_company.service;
 
-import dw.wholesale_company.Dto.OrderDto;
+import dw.wholesale_company.dto.OrderDto;
 import dw.wholesale_company.exception.ResourceNotFoundException;
 import dw.wholesale_company.model.Customer;
 import dw.wholesale_company.model.Order;

@@ -1,18 +1,12 @@
-package dw.wholesale_company.Dto;
+package dw.wholesale_company.dto;
 
-import dw.wholesale_company.model.Customer;
-import dw.wholesale_company.model.Employee;
 import dw.wholesale_company.model.Order;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
