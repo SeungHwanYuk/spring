@@ -17,7 +17,7 @@ GameService gameService;
         this.gameService = gameService;
     }
 
-    @GetMapping("/api/games/products")
+    @GetMapping("products")
     public ResponseEntity<List<Game>> getAllGames() {
         return new ResponseEntity<>(gameService.getAllGames(), HttpStatus.OK);};
 
@@ -36,7 +36,7 @@ GameService gameService;
         return new ResponseEntity<>(gameService.findTopPriceGame(),HttpStatus.OK);
     }
 
-    @GetMapping("api/games/top3price")
+    @GetMapping("/api/games/top3price")
     public ResponseEntity<List<Game>> findTopPriceGameTop3() {
         return new ResponseEntity<>(gameService.findTopPriceGameTop3(),HttpStatus.OK);
     }

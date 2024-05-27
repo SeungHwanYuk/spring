@@ -30,7 +30,7 @@ public class PurchaseController {
         return purchaseService.getPurchaseListByUser(userId);
     }
 
-    @GetMapping("api/products/purchase/name/{userName}")
+    @GetMapping("/api/products/purchase/name/{userName}")
     public ResponseEntity<List<Purchase>> getGameListByUserName(@PathVariable String userName) {
         return new ResponseEntity<>(purchaseService.getUserIdByUserName(userName), HttpStatus.OK);
     }
