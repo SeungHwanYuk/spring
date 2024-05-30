@@ -1,33 +1,41 @@
 const url = "http://localhost:8080/api/products/purchaselist";
 
-const data = [
-  {
-    game: {
-      id: 4,
-    },
-    user: {
-      userId: "yami2024",
-    },
-  },
-  {
-    game: {
-      id: 3,
-    },
-    user: {
-      userId: "yami2024",
-    },
-  },
-];
+function sessionCurrent() {
+  axios
+    .get("http://localhost:8080/user/current", { withCredentials: true })
+    .then((response) => {
+      console.log("데이터 : ", response.data);
+      if (response.status == 200) {
+        const userId = response.data;
+        let cartItems = JSON.parse(localStorage.getItem(userId));
+        if (cartItems) {
+          const data = cartItems.map((game) => {
+            // purchase객체를 만들어서 리턴
+            return { game: game, user: { userId: userId } };
+          });
+          document
+            .querySelector(".purchaseBtn")
+            .addEventListener("click", () => {
+              if (confirm("혼또니?")) {
+                axios
+                  .post(url, data, { withCredentials: true })
+                  .then((response) => {
+                    console.log("데이터 : ", response.data);
+                    localStorage.removeItem(userId);
+                  })
+                  .catch((error) => {
+                    console.log("에러 발생 : ", error);
+                  });
+              }
+            });
+        }
+      }
+    })
+    .catch((error) => {
+      console.log("에러 발생 : ", error);
+      alert("로그인 오네가이시마스.");
+    });
+}
 
-document.querySelector(".purchaseBtn").addEventListener("click", () => {
-  if (confirm("혼또니?")) {
-    axios
-      .post(url, data, { withCredentials: true })
-      .then((response) => {
-        console.log("데이터 : ", response.data);
-      })
-      .catch((error) => {
-        console.log("에러 발생 : ", error);
-      });
-  }
-});
+// 페이지 로딩시에 즉시 세션여부 확인
+sessionCurrent();
