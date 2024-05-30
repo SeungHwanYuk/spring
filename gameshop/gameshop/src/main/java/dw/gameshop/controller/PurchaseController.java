@@ -10,27 +10,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class PurchaseController {
 
     @Autowired
     PurchaseService purchaseService;
 
-    @PostMapping("/api/products/purchase")
+    @PostMapping("products/purchase")
     public Purchase savePurchase(@RequestBody Purchase purchase){
         return purchaseService.savePurchase(purchase);
     }
 
-    @GetMapping("/api/products/purchase")
+
+    @PostMapping("products/purchaselist")
+    public List<Purchase> savePurchaselist(@RequestBody List<Purchase> purchaseList){
+        return purchaseService.savePurchaseList(purchaseList);
+    }
+
+    @GetMapping("products/purchase")
     public List<Purchase> getAllPurchase(){
         return purchaseService.getAllPurchase();
     }
 
-    @GetMapping("/api/products/purchase/id/{userId}")
+    @GetMapping("products/purchase/id/{userId}")
     public List<Purchase> getPurchaseListByUser(@PathVariable String userId) {
         return purchaseService.getPurchaseListByUser(userId);
     }
 
-    @GetMapping("/api/products/purchase/name/{userName}")
+    @GetMapping("products/purchase/name/{userName}")
     public ResponseEntity<List<Purchase>> getGameListByUserName(@PathVariable String userName) {
         return new ResponseEntity<>(purchaseService.getUserIdByUserName(userName), HttpStatus.OK);
     }

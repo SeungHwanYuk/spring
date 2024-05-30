@@ -31,6 +31,8 @@ public class User implements UserDetails {
     @Column(name="created_at", updatable = false)
     private LocalDateTime createdAt;
 
+
+    // 권한
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("user"));

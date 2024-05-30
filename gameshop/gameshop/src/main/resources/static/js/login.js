@@ -15,6 +15,11 @@ document.querySelector("#userId").addEventListener("change", (e) => {
   userId = e.target.value;
 });
 
+document.querySelector("#password").addEventListener("change", (e) => {
+  console.log(e.target.value);
+  password = e.target.value;
+});
+
 document.querySelector("#newUserId").addEventListener("change", (e) => {
   console.log(e.target.value);
   newUserId = e.target.value;
