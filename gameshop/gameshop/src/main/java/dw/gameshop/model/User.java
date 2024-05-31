@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -28,14 +29,19 @@ public class User implements UserDetails {
     private String email;
     @Column(name="password")
     private String password;
+    @ManyToOne
+    @JoinColumn(name = "user_authority")
+    private Authority authority;
     @Column(name="created_at", updatable = false)
     private LocalDateTime createdAt;
+
 
 
     // 권한
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("user"));
+        return Collections.singletonList(
+                new SimpleGrantedAuthority(authority.getAuthorityName()));
     }
 
     @Override

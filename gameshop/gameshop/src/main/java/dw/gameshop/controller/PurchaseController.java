@@ -5,6 +5,7 @@ import dw.gameshop.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class PurchaseController {
 
 
     @PostMapping("products/purchaselist")
+    @PreAuthorize("hasAnyRole('ADMIN')") // ('ADMIN', 'USER') 쉼표 사용으로 권한을 여러개 추가 가능
     public List<Purchase> savePurchaselist(@RequestBody List<Purchase> purchaseList){
         return purchaseService.savePurchaseList(purchaseList);
     }

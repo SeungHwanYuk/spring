@@ -165,6 +165,7 @@
     height: 40px;
     background-color: dodgerblue;
     color: white;
+    display: inline-block;
     font-weight: 700;
     text-align: center;
     line-height: 35px;
@@ -219,6 +220,46 @@
     font-size: 1.3rem;
     border-radius: 5px;
 }
+
+.cart { 
+    width: 100%;
+    background-color:  khaki;
+    padding: 20px;
+
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: white;
+
+
+}
+
+.cart-table td {
+    text-align: center;
+}
+
+thead {
+    background-color: #27ae60;
+    height: 50px;
+}
+
+.tr:nth-child(even) td {
+    background-color: #eaeaed;
+}
+
+.imgtd {
+    width: 200px;
+}
+
+.totalPrice {
+    display: inline-block;
+    
+}
+
 
 .hidden {
     display: none;

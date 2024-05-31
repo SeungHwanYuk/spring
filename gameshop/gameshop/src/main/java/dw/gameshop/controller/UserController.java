@@ -1,5 +1,6 @@
 package dw.gameshop.controller;
 
+import dw.gameshop.dto.SessionDto;
 import dw.gameshop.dto.UserDto;
 import dw.gameshop.service.UserDetailService;
 import dw.gameshop.service.UserService;
@@ -63,12 +64,15 @@ public class UserController {
 
 
     @GetMapping("current")
-    public String getCurrentUser() {
+    public SessionDto getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new IllegalStateException("User is not authenticated");
         }
-        return authentication.getName();
+        SessionDto sessionDto = new SessionDto();
+        sessionDto.setUserId(authentication.getName());
+        sessionDto.setAuthority(authentication.getAuthorities());
+        return sessionDto;
     }
 
 }
