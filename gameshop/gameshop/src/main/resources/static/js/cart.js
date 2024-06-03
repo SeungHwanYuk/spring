@@ -10,7 +10,7 @@ function sessionCurrent() {
         const authority = response.data.authority[0].authority;
         let cartItems = JSON.parse(localStorage.getItem(userId));
         if (cartItems) {
-          displayCart(cartItems);
+          displayCart(cartItems, userId);
           const data = cartItems.map((game) => {
             // purchase객체를 만들어서 리턴
             return {
@@ -43,7 +43,7 @@ function sessionCurrent() {
     });
 }
 
-function displayCart(games) {
+function displayCart(games, user) {
   const tbody = document.querySelector(".cart-body");
   let totalPrice = 0;
 
@@ -87,41 +87,66 @@ function displayCart(games) {
     }
   });
 
-  axios
-    .get("http://localhost:8080/user/current", { withCredentials: true })
-    .then((response) => {
-      console.log("데이터 : ", response.data);
-      if (response.status == 200) {
-        const deleteBtns = document.querySelectorAll(".deleteBtn");
-        console.log(deleteBtns);
-        deleteBtns.forEach((deleteBtn, index) => {
-          deleteBtn.addEventListener("click", () => {
-            if (confirm("장바구니에서 삭제하시겠습니까?")) {
-              const deletedData = games.toSpliced(index, 1);
-              console.log("deletedData :", deletedData);
-              const deletedArr = JSON.stringify([...deletedData]);
-              console.log("deletedArr :", deletedArr);
-              localStorage.setItem(response.data.userId, deletedArr);
-              // window.location.reload();
-              // 06.02 삭제버튼 만들기 구글링 후 성공
-              // 삭제버튼에게 각각 인덱스값 부여
-              // toSpliced를 적용, 인덱스의 1번값 삭제 (첫번째 value임이 고정이기 때문)
-              // deletedArr 의 [...deletedData] 처럼 ...을 사용하여 잘라내는것이 신기했음.
-              // setItem으로 응답받은 userId (key)와 삭제할 배열을 할당받은 deletedArr로 localStorage수정
-              // log로 삭제 확인후 페이지 새로고침!
-            }
-          });
-        });
+  // 06.03 선생님 솔루션 (axios 삭제 및 ...deletedData 수정)
+
+  const deleteBtns = document.querySelectorAll(".deleteBtn");
+  console.log(deleteBtns);
+  deleteBtns.forEach((deleteBtn, index) => {
+    deleteBtn.addEventListener("click", () => {
+      if (confirm("장바구니에서 삭제하시겠습니까?")) {
+        const deletedData = games.toSpliced(index, 1);
+        console.log("deletedData :", deletedData);
+        const deletedArr = JSON.stringify(deletedData);
+        console.log("deletedArr :", deletedArr);
+        localStorage.setItem(userId, deletedArr);
+        window.location.reload();
+        // 06.02 삭제버튼 만들기 구글링 후 성공
+        // 삭제버튼에게 각각 인덱스값 부여
+        // toSpliced를 적용, 인덱스의 1번값 삭제 (첫번째 value임이 고정이기 때문)
+        // deletedArr 의 [...deletedData] 처럼 ...을 사용하여 잘라내는것이 신기했음.
+        // setItem으로 응답받은 userId (key)와 삭제할 배열을 할당받은 deletedArr로 localStorage수정
+        // log로 삭제 확인후 페이지 새로고침!
       }
-    })
-    .catch((error) => {
-      console.log("에러 발생 : ", error);
-      alert("로그인 해주세요.");
     });
+  });
 }
 
 // 페이지 로딩시에 즉시 세션여부 확인
 sessionCurrent();
+
+// 06.02 성공
+//   axios
+//     .get("http://localhost:8080/user/current", { withCredentials: true })
+//     .then((response) => {
+//       console.log("데이터 : ", response.data);
+//       if (response.status == 200) {
+//         const deleteBtns = document.querySelectorAll(".deleteBtn");
+//         console.log(deleteBtns);
+//         deleteBtns.forEach((deleteBtn, index) => {
+//           deleteBtn.addEventListener("click", () => {
+//             if (confirm("장바구니에서 삭제하시겠습니까?")) {
+//               const deletedData = games.toSpliced(index, 1);
+//               console.log("deletedData :", deletedData);
+//               const deletedArr = JSON.stringify([...deletedData]);
+//               console.log("deletedArr :", deletedArr);
+//               localStorage.setItem(response.data.userId, deletedArr);
+//               // window.location.reload();
+//               // 06.02 삭제버튼 만들기 구글링 후 성공
+//               // 삭제버튼에게 각각 인덱스값 부여
+//               // toSpliced를 적용, 인덱스의 1번값 삭제 (첫번째 value임이 고정이기 때문)
+//               // deletedArr 의 [...deletedData] 처럼 ...을 사용하여 잘라내는것이 신기했음.
+//               // setItem으로 응답받은 userId (key)와 삭제할 배열을 할당받은 deletedArr로 localStorage수정
+//               // log로 삭제 확인후 페이지 새로고침!
+//             }
+//           });
+//         });
+//       }
+//     })
+//     .catch((error) => {
+//       console.log("에러 발생 : ", error);
+//       alert("로그인 해주세요.");
+//     });
+// }
 
 // 06.01 function 으로 외부 호출 시도
 // function delCartItem(index) {
