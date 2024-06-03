@@ -43,7 +43,7 @@ function sessionCurrent() {
     });
 }
 
-function displayCart(games, user) {
+function displayCart(games, userId) {
   const tbody = document.querySelector(".cart-body");
   let totalPrice = 0;
 
