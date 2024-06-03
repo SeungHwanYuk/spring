@@ -80,6 +80,12 @@ function displayCart(games) {
     totalPrice = totalPrice + data.price;
   });
   document.querySelector(".totalPrice").textContent = "총 " + totalPrice + "원";
+  document.querySelector(".deleteAllBtn").addEventListener("click", () => {
+    if (confirm("다 지운당?")) {
+      localStorage.clear();
+      window.location.reload();
+    }
+  });
 
   axios
     .get("http://localhost:8080/user/current", { withCredentials: true })

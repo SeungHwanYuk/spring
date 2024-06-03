@@ -190,9 +190,24 @@
     cursor: pointer;
     margin: 40px auto;
 }
-.deleteBtn:hover{
+.deleteBtn:hover , .deleteAllBtn:hover{
     background-color: #fff;
     color: firebrick;
+}
+
+.deleteAllBtn {
+    border: 1px solid black;
+    display: inline-block;
+    justify-content: 50%;
+    background-color: white;
+    color: black;
+    font-weight: 700;
+    text-align: center;
+    /* line-height: 35px; */
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 40px auto;
+    padding: 10px;
 }
 
 

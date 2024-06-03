@@ -74,5 +74,4 @@ public class UserController {
         sessionDto.setAuthority(authentication.getAuthorities());
         return sessionDto;
     }
-
 }
