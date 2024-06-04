@@ -198,7 +198,7 @@
 .deleteAllBtn {
     border: 1px solid black;
     display: inline-block;
-    justify-content: 50%;
+    justify-content: right;
     background-color: white;
     color: black;
     font-weight: 700;

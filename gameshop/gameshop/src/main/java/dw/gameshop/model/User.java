@@ -27,11 +27,14 @@ public class User implements UserDetails {
     private String userName;
     @Column(name="email", length=255, nullable = false)
     private String email;
+
     @Column(name="password")
     private String password;
+
     @ManyToOne
     @JoinColumn(name = "user_authority")
     private Authority authority;
+
     @Column(name="created_at", updatable = false)
     private LocalDateTime createdAt;
 
