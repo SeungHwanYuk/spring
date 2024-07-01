@@ -12,11 +12,16 @@ import java.util.List;
 
 @RestController
 public class ReviewController {
+
     ReviewService reviewService;
+
     @Autowired
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
+
+
+
 
     @GetMapping("/reviews")
     public ResponseEntity<List<Review>> getAllReview() {

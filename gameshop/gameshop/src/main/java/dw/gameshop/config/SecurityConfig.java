@@ -35,9 +35,10 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/user/signup"),
                                 new AntPathRequestMatcher("/login"),
                                 new AntPathRequestMatcher("/gameshop/**"),
+                                new AntPathRequestMatcher("/css/**"),
                                 new AntPathRequestMatcher("/js/**"),
-                                new AntPathRequestMatcher("/css/**")
-
+                                new AntPathRequestMatcher("/img/**"),
+                                new AntPathRequestMatcher("/mp4/**")
                         ).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form->form.loginPage("/login").defaultSuccessUrl("/articles"))

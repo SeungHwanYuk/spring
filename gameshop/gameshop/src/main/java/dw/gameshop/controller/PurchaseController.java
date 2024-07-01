@@ -29,18 +29,29 @@ public class PurchaseController {
         return purchaseService.savePurchaseList(purchaseList);
     }
 
-    @GetMapping("products/purchase")
-    public List<Purchase> getAllPurchase(){
-        return purchaseService.getAllPurchase();
+    @GetMapping("/products/purchase")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public List<Purchase> getAllPurchases() {
+        return purchaseService.getAllPurchases();
     }
 
-    @GetMapping("products/purchase/id/{userId}")
+    @GetMapping("/products/purchase/id/{userId}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public List<Purchase> getPurchaseListByUser(@PathVariable String userId) {
         return purchaseService.getPurchaseListByUser(userId);
     }
 
-    @GetMapping("products/purchase/name/{userName}")
-    public ResponseEntity<List<Purchase>> getGameListByUserName(@PathVariable String userName) {
-        return new ResponseEntity<>(purchaseService.getUserIdByUserName(userName), HttpStatus.OK);
+
+    @GetMapping("/products/purchase/name/{userName}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<List<Purchase>> getPurchaseListByUserName(
+            @PathVariable String userName) {
+        return new ResponseEntity<>(purchaseService.getPurchaseListByUserName(userName),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/products/purchase/current")
+    public List<Purchase> getPurchaseListByCurrentUser() {
+        return purchaseService.getPurchaseListByCurrentUser();
     }
 }

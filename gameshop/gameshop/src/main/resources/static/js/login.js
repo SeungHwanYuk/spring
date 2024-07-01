@@ -1,6 +1,7 @@
-const urlLogin = "http://localhost:8080/user/login";
-const urlLogout = "http://localhost:8080/user/logout";
-const urlSignup = "http://localhost:8080/user/signup";
+const urlLogin = "/user/login";
+const urlLogout = "/user/logout";
+const urlSignup = "/user/signup";
+const urlSession = "/user/current";
 
 let userId = "";
 let password = "";
@@ -90,40 +91,40 @@ document.querySelector(".signupInputBtn").addEventListener("click", () => {
     .post(urlSignup, data, { withCredentials: true })
     .then((response) => {
       if (data.userId != "" && data.password != "") {
-        console.log("데이터 : ", response);
+        console.log("데이터 : ", response.data);
         document.querySelector(".signup-box").classList.add("hidden");
         document.querySelector(".login-box").classList.remove("hidden");
         alert("회원가입 되었습니다.");
-      }
-      if (data.userId == "" && data.password == "") {
+      } else {
+        // if (data.userId == "" && data.password == "") {
         document.querySelector(".signup-box").classList.remove("hidden");
         document.querySelector(".login-box").classList.add("hidden");
         alert("아이디와 패스워드는 필수사항 입니다.");
       }
     })
     .catch((error) => {
-      console.log("에러 발생 : ", error);
+      console.log("에러 발생 : ", error.response.data);
     });
 });
 
 function sessionCurrent() {
   // 로그인 유지 확인 코드
   axios
-    .get("http://localhost:8080/user/current", { withCredentials: true })
+    .get(urlSession, { withCredentials: true })
     .then((response) => {
       console.log("데이터", response);
-      if (response.status == 200) {
+      if (response.data.resultCode == "SUCCESS") {
         console.log("세션 유지");
         if (response.status == 200) {
           document.querySelector(".login-box").classList.add("hidden");
           document.querySelector(".user-box").classList.remove("hidden");
           document.querySelector(".user-box p").textContent =
-            response.data.userId + "님, 환영합니다.";
+            response.data.data.userId + "님, 환영합니다.";
         }
       }
     })
     .catch((error) => {
-      console.log("에러 발생", error);
+      console.log("에러 발생", error.response.data);
     });
 }
 
