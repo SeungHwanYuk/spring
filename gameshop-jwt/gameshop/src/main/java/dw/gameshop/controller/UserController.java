@@ -21,7 +21,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
     private UserService userService;
     private UserDetailService userDetailService;
@@ -34,7 +34,7 @@ public class UserController {
         this.authenticationManager = authenticationManager;
         this.httpServletRequest = httpServletRequest;
     }
-    @PostMapping("signup")
+    @PostMapping("/signup")
     public ResponseEntity<BaseResponse<String>> signUp(@Valid @RequestBody UserDto userDto) {
         return new ResponseEntity<>(
                 new BaseResponse<>(ResultCode.SUCCESS.name(),
@@ -43,8 +43,8 @@ public class UserController {
                 HttpStatus.CREATED);
     }
 
-    @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody UserDto userDto,
+    @PostMapping("/login")
+    public ResponseEntity<BaseResponse<String>> login(@RequestBody UserDto userDto,
                                         HttpServletRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userDto.getUserId(), userDto.getPassword())
@@ -59,7 +59,12 @@ public class UserController {
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
                 SecurityContextHolder.getContext());
 
-        return ResponseEntity.ok("Success");
+        return new ResponseEntity<>(
+                new BaseResponse<>(ResultCode.SUCCESS.name(),
+                null,
+                ResultCode.SUCCESS.getMsg())
+                , HttpStatus.OK);
+
     }
 
     @PostMapping("/logout")
@@ -72,8 +77,8 @@ public class UserController {
     }
 
 
-    @GetMapping("current")
-    public SessionDto getCurrentUser() {
+    @GetMapping("/current")
+    public ResponseEntity<BaseResponse<SessionDto>> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new IllegalStateException("User is not authenticated");
@@ -81,6 +86,11 @@ public class UserController {
         SessionDto sessionDto = new SessionDto();
         sessionDto.setUserId(authentication.getName());
         sessionDto.setAuthority(authentication.getAuthorities());
-        return sessionDto;
+
+        return new ResponseEntity<>(
+                new BaseResponse(ResultCode.SUCCESS.name(),
+                        sessionDto,
+                        ResultCode.SUCCESS.getMsg())
+                , HttpStatus.OK);
     }
 }

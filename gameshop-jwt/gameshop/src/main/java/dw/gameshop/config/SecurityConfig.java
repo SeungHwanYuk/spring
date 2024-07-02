@@ -2,6 +2,8 @@ package dw.gameshop.config;
 
 import dw.gameshop.exception.MyAccessDeniedHandler;
 import dw.gameshop.exception.MyAuthenticationEntryPoint;
+import dw.gameshop.jwt.JwtFilter;
+import dw.gameshop.jwt.TokenProvider;
 import dw.gameshop.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +18,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -25,14 +28,25 @@ public class SecurityConfig {
     @Autowired
     private UserDetailService userDetailService;
 
+
+    @Autowired
+    protected TokenProvider tokenProvider;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeRequests(auth -> auth
                         .requestMatchers(
+                                new AntPathRequestMatcher("/api/authenticate"),
+                                new AntPathRequestMatcher("/api/products/**"),
+                                new AntPathRequestMatcher("/api/board/**"),
+                                new AntPathRequestMatcher("/api/user/login"),
+                                new AntPathRequestMatcher("/api/user/signup"),
                                 new AntPathRequestMatcher("/products/**"),
                                 new AntPathRequestMatcher("/user/login"),
                                 new AntPathRequestMatcher("/user/signup"),
+                                new AntPathRequestMatcher("/user/current"),
+                                new AntPathRequestMatcher("/api/user/current"),
                                 new AntPathRequestMatcher("/login"),
                                 new AntPathRequestMatcher("/gameshop/**"),
                                 new AntPathRequestMatcher("/css/**"),
@@ -43,13 +57,16 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .formLogin(form->form.loginPage("/login").defaultSuccessUrl("/articles"))
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)) // STATELESS 상태없음 JWT 사용시 설정
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // STATELESS 상태없음 JWT 사용시 설정
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new MyAuthenticationEntryPoint())
                         .accessDeniedHandler(new MyAccessDeniedHandler()))
 
                 // JWT .addFilterBefore ()
+                .addFilterBefore(
+                        new JwtFilter(tokenProvider),
+                        UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

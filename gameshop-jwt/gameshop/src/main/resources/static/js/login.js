@@ -142,4 +142,4 @@ function sessionCurrent() {
     });
 }
 
-// sessionCurrent();
+sessionCurrent();
